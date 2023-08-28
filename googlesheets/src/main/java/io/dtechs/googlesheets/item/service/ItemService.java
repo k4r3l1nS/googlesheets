@@ -9,6 +9,8 @@ import io.dtechs.googlesheets.size.repository.SizeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ItemService {
@@ -39,17 +41,22 @@ public class ItemService {
         return itemRepository.findByTypeAndNameAndSize(clothingType, name, size);
     }
 
-    public Iterable<Item> findAll() {
+//    public Iterable<Item> findAll() {
+//
+//        return itemRepository.findAll();
+//    }
+//
+//    public Item deactivate(Long id) {
+//
+//        var itemEntity = itemRepository.findById(id).orElseThrow();
+//
+//        itemEntity.deactivate();
+//
+//        return itemEntity;
+//    }
 
-        return itemRepository.findAll();
-    }
+    public List<Item> findActiveItems() {
 
-    public Item delete(Long id) {
-
-        var itemEntity = itemRepository.findById(id).orElseThrow();
-
-        itemRepository.delete(itemEntity);
-
-        return itemEntity;
+        return itemRepository.findActiveItems();
     }
 }

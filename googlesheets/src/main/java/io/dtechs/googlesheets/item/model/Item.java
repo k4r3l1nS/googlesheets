@@ -73,12 +73,22 @@ public class Item {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    private boolean isActive = true;
+
+    private LocalDateTime deletedAt;
+
     /**
      * Фотография элемента одежды
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "icon_id")
     private Icon icon;
+
+    public void deactivate() {
+
+        isActive = false;
+        deletedAt = LocalDateTime.now();
+    }
 
     @Getter
     public enum ClothingType {

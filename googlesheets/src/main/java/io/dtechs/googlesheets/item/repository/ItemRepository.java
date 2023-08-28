@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ItemRepository extends CrudRepository<Item, Long> {
 
@@ -18,4 +20,11 @@ public interface ItemRepository extends CrudRepository<Item, Long> {
            """)
     Item findByTypeAndNameAndSize(Item.ClothingType clothingType, String name,
                                           Size size);
+
+    @Query("""
+            SELECT I
+            FROM Item I
+            WHERE I.isActive = true
+           """)
+    List<Item> findActiveItems();
 }

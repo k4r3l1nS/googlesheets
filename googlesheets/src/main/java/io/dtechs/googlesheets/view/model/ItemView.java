@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 @Entity
 @Setter
 @Getter
-@Subselect("SELECT * FROM V_ITEM_DATA")
+@Subselect("SELECT * FROM V_ITEM_DATA WHERE isActive = true")
 public class ItemView {
 
     @Id

@@ -107,10 +107,10 @@ public class ScheduledService {
      */
     private void deleteOddEntities(List<Long> protectedItemIdList) {
 
-        final var allItems = itemService.findAll();
+        final var allItems = itemService.findActiveItems();
         allItems.forEach(item -> {
             if (!protectedItemIdList.contains(item.getId()))
-                itemService.delete(item.getId());
+                item.deactivate();
         });
 
         final var allIcons = iconService.findAll();
