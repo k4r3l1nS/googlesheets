@@ -8,9 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Getter
 @Setter
@@ -58,9 +56,9 @@ public class ItemDto {
     private boolean isPresent;
 
     /**
-     * Сслыка на фото элемента одежды
+     * Фото элемента одежды
      */
-    private Icon icon;
+    private Set<Icon> icons = new HashSet<>();
 
     /**
      * Формирует entity элемента одежды по данному DTO
@@ -116,6 +114,7 @@ public class ItemDto {
                     .sellingPrice(sellingPrice == null || sellingPrice.isEmpty() ? null :
                             BigDecimal.valueOf(Double.parseDouble(sellingPrice)))
                     .isPresent(isPresent != null && isPresent.equalsIgnoreCase("ДА"))
+                    .icons(new HashSet<>())
                     .build();
         } catch (Exception ex) {
 
@@ -138,15 +137,17 @@ public class ItemDto {
         itemEntity.setPurchasePrice(purchasePrice);
         itemEntity.setPresent(isPresent);
 
-        //Если данная icon обновлена...
-        if (itemEntity.getIcon() == null && icon != null ||
-                itemEntity.getIcon() != null && !itemEntity.getIcon().equals(icon)) {
-            if (icon != null) {
-                icon.addItem(itemEntity);
-            } else {
-                itemEntity.getIcon().deleteItem(itemEntity);
+        itemEntity.getIcons().forEach(icon -> {
+            if (!icons.contains(icon)) {
+                icon.deleteItem(itemEntity);
             }
-        }
+        });
+
+        icons.forEach(icon -> {
+            if (!itemEntity.getIcons().contains(icon) && icon != null) {
+                icon.addItem(itemEntity);
+            }
+        });
     }
 
     public boolean isInvalid() {
@@ -164,8 +165,8 @@ public class ItemDto {
         return value == null || value.isEmpty() ? null : value;
     }
 
-    public String getAwsKey() {
+    public String getAwsFolder() {
 
-        return clothingType.getName() + "/" + name + ".jpg";
+        return clothingType.getName() + "/" + name;
     }
 }

@@ -1,6 +1,7 @@
 package io.dtechs.googlesheets.view.model;
 
 import io.dtechs.googlesheets.item.model.Item;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
@@ -10,12 +11,13 @@ import org.hibernate.annotations.Subselect;
 import org.springframework.data.annotation.Immutable;
 
 import java.math.BigDecimal;
+import java.net.URL;
 
 @Immutable
 @Entity
 @Setter
 @Getter
-@Subselect("SELECT * FROM V_ITEM_DATA WHERE isActive = true")
+@Subselect("SELECT * FROM V_ITEM_DATA")
 public class ItemView {
 
     @Id
@@ -38,7 +40,8 @@ public class ItemView {
     private BigDecimal sellingPrice;
 
     /**
-     * URL фотографии элемента одежды
+     * URL главной фотографии элемента одежды
      */
-    private String iconUrl;
+    @Column(name = "main_icon")
+    private URL mainIconUrl;
 }

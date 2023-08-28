@@ -17,8 +17,9 @@ public interface ItemRepository extends CrudRepository<Item, Long> {
             WHERE (I.clothingType = :clothingType OR I.clothingType is NULL AND :clothingType is NULL)
               AND (I.name = :name OR I.name is NULL AND :name is NULL)
               AND (I.size = :size OR I.size is NULL AND :size is NULL)
+              AND I.isActive = true
            """)
-    Item findByTypeAndNameAndSize(Item.ClothingType clothingType, String name,
+    Item findActiveByTypeAndNameAndSize(Item.ClothingType clothingType, String name,
                                           Size size);
 
     @Query("""

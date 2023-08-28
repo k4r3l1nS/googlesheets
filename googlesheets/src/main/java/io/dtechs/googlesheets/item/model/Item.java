@@ -10,7 +10,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -80,9 +82,9 @@ public class Item {
     /**
      * Фотография элемента одежды
      */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "icon_id")
-    private Icon icon;
+    @ManyToMany(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "icon_id")
+    private Set<Icon> icons = new HashSet<>();
 
     public void deactivate() {
 

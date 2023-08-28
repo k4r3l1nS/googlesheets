@@ -1,59 +1,38 @@
 package io.dtechs.googlesheets.item.service;
 
-import io.dtechs.googlesheets.icon.repository.IconRepository;
+import io.dtechs.googlesheets.icon.model.Icon;
 import io.dtechs.googlesheets.item.dto.ItemDto;
 import io.dtechs.googlesheets.item.model.Item;
 import io.dtechs.googlesheets.size.model.Size;
 import io.dtechs.googlesheets.item.repository.ItemRepository;
-import io.dtechs.googlesheets.size.repository.SizeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class ItemService {
 
     private final ItemRepository itemRepository;
-    private final SizeRepository sizeRepository;
-    private final IconRepository iconRepository;
 
-    public Item save(ItemDto itemDto, Long sizeId, Long iconId) {
+    public Item save(ItemDto itemDto, Size sizeEntity, Set<Icon> icons) {
 
-        var sizeEntity = sizeRepository.findById(sizeId).orElseThrow();
 
         var itemEntity = itemDto.toEntity();
         sizeEntity.addItem(itemEntity);
 
-        if (iconId != null) {
-
-            var iconEntity = iconRepository.findById(iconId).orElseThrow();
-            iconEntity.addItem(itemEntity);
-        }
+        icons.forEach(icon -> icon.addItem(itemEntity));
 
         return itemRepository.save(itemEntity);
     }
 
-    public Item findByTypeAndNameAndSize(Item.ClothingType clothingType, String name,
+    public Item findActiveByTypeAndNameAndSize(Item.ClothingType clothingType, String name,
                                                  Size size) {
 
-        return itemRepository.findByTypeAndNameAndSize(clothingType, name, size);
+        return itemRepository.findActiveByTypeAndNameAndSize(clothingType, name, size);
     }
-
-//    public Iterable<Item> findAll() {
-//
-//        return itemRepository.findAll();
-//    }
-//
-//    public Item deactivate(Long id) {
-//
-//        var itemEntity = itemRepository.findById(id).orElseThrow();
-//
-//        itemEntity.deactivate();
-//
-//        return itemEntity;
-//    }
 
     public List<Item> findActiveItems() {
 

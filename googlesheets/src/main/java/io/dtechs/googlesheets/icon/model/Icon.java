@@ -6,8 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -22,8 +22,10 @@ public class Icon {
 
     private String key;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "icon")
-    private List<Item> items = new ArrayList<>();
+    private boolean isMain = false;
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "icons")
+    private Set<Item> items = new HashSet<>();
 
     public static Icon getIcon(URL storageUrl, String awsKey) {
 
@@ -40,13 +42,13 @@ public class Icon {
 
     public void addItem(Item item) {
 
-        item.setIcon(this);
+        item.getIcons().add(this);
         this.items.add(item);
     }
 
     public void deleteItem(Item item) {
 
-        item.setIcon(null);
+        item.getIcons().remove(item);
         this.items.remove(item);
     }
 }

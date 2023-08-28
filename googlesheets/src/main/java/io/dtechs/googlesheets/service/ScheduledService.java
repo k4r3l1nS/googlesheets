@@ -79,18 +79,17 @@ public class ScheduledService {
             if (itemDto != null && !itemDto.isInvalid()) {
 
                 final var sizeEntity = sizeService.saveIfNotExists(itemDto.getSize());
-                final var iconEntity = iconService.saveIfNotExists(itemDto.getAwsKey());
+                final var iconEntities = iconService.saveIfNotExists(itemDto.getAwsFolder());
 
-                itemDto.setIcon(iconEntity);
+                itemDto.getIcons().addAll(iconEntities);
 
-                var itemEntity = itemService.findByTypeAndNameAndSize(itemDto.getClothingType(),
+                var itemEntity = itemService.findActiveByTypeAndNameAndSize(itemDto.getClothingType(),
                         itemDto.getName(), sizeEntity);
 
                 if (itemEntity != null) {
                     itemDto.mapTo(itemEntity);
                 } else {
-                    itemEntity = itemService.save(itemDto, sizeEntity.getId(),
-                            iconEntity == null ? null : iconEntity.getId());
+                    itemEntity = itemService.save(itemDto, sizeEntity, iconEntities);
                 }
 
                 protectedItemIdList.add(itemEntity.getId());
@@ -121,4 +120,3 @@ public class ScheduledService {
     }
 
 }
-
