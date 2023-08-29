@@ -4,13 +4,10 @@ import io.dtechs.googlesheets.icon.model.Icon;
 import io.dtechs.googlesheets.icon.repository.IconRepository;
 import io.dtechs.googlesheets.item.dto.ItemInfoDto;
 import io.dtechs.googlesheets.item.repository.ItemRepository;
-import io.dtechs.googlesheets.view.model.ItemView;
 import io.dtechs.googlesheets.view.repository.ItemViewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
