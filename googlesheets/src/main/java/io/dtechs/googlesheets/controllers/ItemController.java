@@ -14,7 +14,7 @@ public class ItemController {
 
     private final ItemViewService itemViewService;
 
-    @GetMapping("/item-view")
+    @GetMapping("/items")
     public ItemInfoDto get() {
 
         return itemViewService.get();
