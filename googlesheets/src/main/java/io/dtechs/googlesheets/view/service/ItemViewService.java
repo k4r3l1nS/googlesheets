@@ -21,14 +21,6 @@ public class ItemViewService {
     private final IconRepository iconRepository;
     private final ItemRepository itemRepository;
 
-    @Transactional(readOnly = true)
-    public List<ItemView> findAll() {
-
-        var itemViewIterable = itemViewRepository.findAll();
-
-        return (List<ItemView>) itemViewIterable;
-    }
-
     public ItemInfoDto get() {
 
         ItemInfoDto itemInfoDto = new ItemInfoDto();
