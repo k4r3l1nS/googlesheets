@@ -26,7 +26,7 @@ public class ControllerTests {
     public void testItemController() {
 
         webTestClient.get()
-                .uri("/get/item-view")
+                .uri("/get/items")
                 .exchange()
                 .expectStatus()
                 .isOk();
